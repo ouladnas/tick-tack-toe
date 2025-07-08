@@ -17,7 +17,6 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    testImplementation("junit:junit:5.0.0")
     testImplementation("org.assertj:assertj-core:3.27.3")
     implementation(platform("org.lwjgl:lwjgl-bom:$lwjglVersion"))
 

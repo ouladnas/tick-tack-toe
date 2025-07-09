@@ -1,23 +1,32 @@
-import org.lwjgl.glfw.GLFW.*
-import org.lwjgl.opengl.GL
+import kotlin.math.min
 
 fun main() {
  WindowManager.init().use {
-   WindowManager.window(640, 480, "Hello LWJGL").use { window ->
+   WindowManager.window(640, 480, "Tick-Tack-Toe").use { window ->
 
      SpriteRenderer.init()
 
-     val logo = SpriteRenderer.texture("cross.png")
+     val logo = SpriteRenderer.texture("board.png")
 
-//     println("Logo: ${logo.width}x${logo.height} ${logo.id}")
+     SpriteRenderer.onFrameResize(window.innerWidth, window.innerHeight)
+     window.onBufferResize() { width, height ->
+       SpriteRenderer.onFrameResize(width, height)
+     }
 
      while (!window.dismissing) {
        SpriteRenderer.onBeginFrame()
 
-       SpriteRenderer.sprite(logo, 100, 100, 256)
+       val width = min(window.innerWidth, window.innerHeight)
+       val x = (window.innerWidth - width) / 2
+       val y = (window.innerHeight - width) / 2
+
+       SpriteRenderer.sprite(logo, x, y, width, width)
 
        SpriteRenderer.onEndFrame()
        window.flip()
+
+//       window.dismiss()
+//       SpriteRenderer.dump();
      }
 
      SpriteRenderer.free()

@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78618d72-4a34-4c9f-8f30-bf72e3c189e3" name="Changes" comment="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow" />
+    <list default="true" id="78618d72-4a34-4c9f-8f30-bf72e3c189e3" name="Changes" comment="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/SpriteRenderer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/SpriteRenderer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/WindowManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/WindowManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/sprite.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/sprite.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/sprite.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/sprite.vert" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -194,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752022082390</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow">
+      <option name="closed" value="true" />
+      <created>1752022177545</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1752022177545</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

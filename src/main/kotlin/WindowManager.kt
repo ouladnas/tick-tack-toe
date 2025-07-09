@@ -17,7 +17,10 @@ data class Window(val handle: Long): AutoCloseable {
 
   fun show() = glfwShowWindow(handle)
   fun hide() = glfwHideWindow(handle)
-  fun flip() = glfwSwapBuffers(handle)
+  fun flip() {
+    glfwSwapBuffers(handle)
+    glfwPollEvents()
+  }
 
   val visible: Boolean get() = glfwGetWindowAttrib(handle, GLFW_VISIBLE) == GLFW_TRUE
   val size: Pair<Int, Int> get() = MemoryStack.stackPush().use {
@@ -33,8 +36,18 @@ data class Window(val handle: Long): AutoCloseable {
     Pair(x.get(0), y.get(0))
   }
 
+  val innerSize: Pair<Int, Int> get() = MemoryStack.stackPush().use {
+    val width = it.mallocInt(1)
+    val height = it.mallocInt(1)
+    glfwGetFramebufferSize(handle, width, height)
+    Pair(width.get(0), height.get(0))
+  }
+
   val width: Int get() = size.first
   val height: Int get() = size.second
+
+  val innerWidth: Int get() = innerSize.first
+  val innerHeight: Int get() = innerSize.second
 
   val x: Int get() = position.first
   val y: Int get() = position.second
@@ -43,6 +56,18 @@ data class Window(val handle: Long): AutoCloseable {
   fun resize(width: Int, height: Int) = glfwSetWindowSize(handle, width, height)
 
   fun useContext() = glfwMakeContextCurrent(handle)
+
+  fun onBufferResize(callback: Window.(Int, Int) -> Unit) {
+    glfwSetFramebufferSizeCallback(handle) { _, width, height ->
+      callback(this, width, height)
+    }
+  }
+
+  fun onResize(callback: Window.(Int, Int) -> Unit) {
+    glfwSetWindowSizeCallback(handle) { _, width, height ->
+      callback(this, width, height)
+    }
+  }
 }
 
 object WindowManager : AutoCloseable {
@@ -62,7 +87,7 @@ object WindowManager : AutoCloseable {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE)
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
     glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE)
 
     val handle = glfwCreateWindow(width, height, title, NULL, NULL)

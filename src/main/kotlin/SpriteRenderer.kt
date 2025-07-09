@@ -3,7 +3,6 @@ import org.joml.Matrix4f
 import org.lwjgl.BufferUtils
 import org.lwjgl.stb.STBImage.*
 import java.nio.FloatBuffer
-import java.nio.IntBuffer
 import org.lwjgl.system.MemoryStack
 import java.net.URL
 import java.nio.ByteBuffer
@@ -23,9 +22,6 @@ object SpriteRenderer {
   private var ibo = 0
 
   private var shader = 0
-  private var projection = Matrix4f()
-  private var projectionLocation = 0
-  private var projectionBuffer = FloatBuffer.allocate(16)
 
   private var vertexValues = FloatArray(MAX_VERTICES * FLOAT_PER_VERTEX)
   private var vertexCount = 0
@@ -36,6 +32,9 @@ object SpriteRenderer {
   private var textures = IntArray(MAX_TEXTURES)
   private var textureCount = 0
 
+  private var width = 800
+  private var height = 600
+
   fun onBeginFrame() {
     vertexCount = 0
     indexCount = 0
@@ -43,24 +42,75 @@ object SpriteRenderer {
   }
 
   fun onEndFrame() {
-      val usedVertexCount = vertexCount * FLOAT_PER_VERTEX
-      val vertexBuffer = BufferUtils.createFloatBuffer(usedVertexCount)
-      vertexBuffer.put(vertexValues, 0, usedVertexCount)
-      vertexBuffer.flip()
-  
-      val indexBuffer = BufferUtils.createIntBuffer(indexCount)
-      indexBuffer.put(indexValues, 0, indexCount)
-      indexBuffer.flip()
-  
-      glBindBuffer(GL_ARRAY_BUFFER, vbo)
-      glBufferSubData(GL_ARRAY_BUFFER, 0, vertexBuffer)
-  
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
-      glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indexBuffer)
-  
-      glUseProgram(shader)
-      glBindVertexArray(vao)
-      glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0L)
+    glUseProgram(shader)
+    glBindVertexArray(vao)
+
+    val usedVertexCount = vertexCount * FLOAT_PER_VERTEX
+    val vertexBuffer = BufferUtils.createFloatBuffer(usedVertexCount)
+    vertexBuffer.put(vertexValues, 0, usedVertexCount)
+    vertexBuffer.flip()
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo)
+    glBufferSubData(GL_ARRAY_BUFFER, 0, vertexBuffer)
+
+    val indexBuffer = BufferUtils.createIntBuffer(indexCount)
+    indexBuffer.put(indexValues, 0, indexCount)
+    indexBuffer.flip()
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indexBuffer)
+
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0L)
+  }
+
+  private fun verifyNoErrors() {
+    val error = glGetError()
+    val message = when (error) {
+      GL_NO_ERROR -> return
+      GL_INVALID_ENUM -> "Invalid enum"
+      GL_INVALID_VALUE -> "Invalid value"
+      GL_INVALID_OPERATION -> "Invalid operation"
+      GL_INVALID_FRAMEBUFFER_OPERATION -> "Invalid framebuffer operation"
+      GL_OUT_OF_MEMORY -> "Out of memory"
+      GL_STACK_UNDERFLOW -> "Stack underflow"
+      GL_STACK_OVERFLOW -> "Stack overflow"
+      else -> "Unknown error"
+    }
+    println("OpenGL error: $message")
+  }
+
+  fun onFrameResize(width: Int, height: Int) {
+    this.width = width
+    this.height = height
+    verifyNoErrors()
+  }
+
+  fun dump() {
+    println("vertexCount: $vertexCount")
+    println("indexCount: $indexCount")
+    println("textureCount: $textureCount")
+
+    println("vertexValues(${vertexValues.size}): ${vertexValues.slice(0 until vertexCount * FLOAT_PER_VERTEX).toList()}")
+    println("indexValues(${indexValues.size}): ${indexValues.slice(0 until indexCount).toList()}")
+    println("textures(${textures.size}): ${textures .toList()}")
+
+    val usedVertexCount = vertexCount * FLOAT_PER_VERTEX
+    val vertexBuffer = BufferUtils.createFloatBuffer(usedVertexCount)
+    vertexBuffer.put(vertexValues, 0, usedVertexCount)
+    vertexBuffer.flip()
+
+    val vertexData = FloatArray(usedVertexCount)
+    vertexBuffer.get(vertexData)
+
+    val indexBuffer = BufferUtils.createIntBuffer(indexCount)
+    indexBuffer.put(indexValues, 0, indexCount)
+    indexBuffer.flip()
+
+    val indexData = IntArray(indexCount)
+    indexBuffer.get(indexData)
+
+    println("vertexBuffer: ${vertexData.toList()}")
+    println("indexBuffer: ${indexData.toList()}")
   }
 
   fun free() {
@@ -71,6 +121,8 @@ object SpriteRenderer {
   }
 
   fun init() {
+    glClearColor(0f, 0f, 0f, 1f)
+
     vao = glGenVertexArrays()
     glBindVertexArray(vao)
 
@@ -79,18 +131,26 @@ object SpriteRenderer {
 
     glBufferData(GL_ARRAY_BUFFER, (MAX_VERTICES * FLOAT_PER_VERTEX * Float.SIZE_BYTES).toLong(), GL_STATIC_DRAW)
 
+    val stride = FLOAT_PER_VERTEX * Float.SIZE_BYTES
+    val positionOffset = 0L
+    val texCoordOffset = 2L * Float.SIZE_BYTES
+    val texIndexOffset = 4L * Float.SIZE_BYTES
+
     glEnableVertexAttribArray(0)
-    glVertexAttribPointer(0, 2, GL_FLOAT, false, FLOAT_PER_VERTEX * Float.SIZE_BYTES, 0L)
+    glVertexAttribPointer(0, 2, GL_FLOAT, false, stride, positionOffset)
 
     glEnableVertexAttribArray(1)
-    glVertexAttribPointer(1, 3, GL_FLOAT, false, FLOAT_PER_VERTEX * Float.SIZE_BYTES, 2L * Float.SIZE_BYTES)
+    glVertexAttribPointer(1,
+      2, GL_FLOAT, false, stride, texCoordOffset)
+
+    glEnableVertexAttribArray(2)
+    glVertexAttribPointer(2, 1, GL_FLOAT, false, stride, texIndexOffset)
 
     ibo = glGenBuffers()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, (MAX_INDICES * Int.SIZE_BYTES).toLong(), GL_STATIC_DRAW)
 
-    projection.ortho2D(0f, 800f, 600f, 0f)
     shader = glCreateProgram()
 
     val vert = createShaderModule(GL_VERTEX_SHADER, "shaders/sprite.vert")
@@ -98,9 +158,9 @@ object SpriteRenderer {
 
     linkShaderProgram(shader, vert, frag)
 
-    glUseProgram(shader)
-    projectionLocation = glGetUniformLocation(shader, "u_projection")
-    glUniformMatrix4fv(projectionLocation, false, projection.get(projectionBuffer))
+    glDisable(GL_CULL_FACE)
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
   }
 
   fun texture(path: String): Texture {
@@ -123,7 +183,7 @@ object SpriteRenderer {
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, floatArrayOf(0f, 0f, 0f, 0f))
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image)
 
-//    stbi_image_free(image)
+    stbi_image_free(image)
 
     return Texture(id, width, height)
   }
@@ -133,7 +193,9 @@ object SpriteRenderer {
   }
 
   fun sprite(texture: Texture, x: Int, y: Int, width: Int) {
-    sprite(texture, x, y, width, (texture.height * (width / texture.width.toFloat())).toInt())
+    val ratio = texture.width / texture.height.toFloat()
+    val height = (width / ratio).toInt()
+    sprite(texture, x, y, width, height)
   }
 
   fun sprite(texture: Texture, x: Int, y: Int, width: Int, height: Int) {
@@ -159,20 +221,23 @@ object SpriteRenderer {
     val uvRight = (sx + sw) / texWidth
     val uvBottom = (sy + sh) / texHeight
 
-    val vertLeft = x.toFloat()
-    val vertRight = (x + width).toFloat()
-    val vertTop = (y + height).toFloat()
-    val vertBottom = y.toFloat()
+    val xRatio = 2f / this.width
+    val yRatio = 2f / this.height
 
-    var start = vertexCount
+    val vertLeft = x.toFloat() * xRatio - 1f
+    val vertRight = (x + width).toFloat() * xRatio - 1f
+    val vertTop = (y - height).toFloat() * yRatio + 1f
+    val vertBottom = y.toFloat() * yRatio + 1f
+
+    val start = vertexCount
     var index = start * FLOAT_PER_VERTEX
 
-    indexValues[indexCount + 0] = start++
-    indexValues[indexCount + 1] = start++
-    indexValues[indexCount + 2] = start++
-    indexValues[indexCount + 3] = start++
-    indexValues[indexCount + 4] = start++
-    indexValues[indexCount + 5] = start
+    indexValues[indexCount + 0] = start + 0
+    indexValues[indexCount + 1] = start + 2
+    indexValues[indexCount + 2] = start + 1
+    indexValues[indexCount + 3] = start + 1
+    indexValues[indexCount + 4] = start + 3
+    indexValues[indexCount + 5] = start + 2
 
     indexCount += 6
     vertexCount += 4

@@ -1,4 +1,4 @@
-import kotlin.math.min
+import scenes.GameScene
 
 fun main() {
  WindowManager.init().use {
@@ -6,7 +6,12 @@ fun main() {
 
      SpriteRenderer.init()
 
-     val logo = SpriteRenderer.texture("board.png")
+//     val board = Board()
+//     board.set(0, 0, Tile.CROSS)
+//     board.set(1, 2, Tile.CIRCLE)
+     val scene = GameScene(window)
+
+     scene.init()
 
      SpriteRenderer.onFrameResize(window.innerWidth, window.innerHeight)
      window.onBufferResize() { width, height ->
@@ -16,11 +21,8 @@ fun main() {
      while (!window.dismissing) {
        SpriteRenderer.onBeginFrame()
 
-       val width = min(window.innerWidth, window.innerHeight)
-       val x = (window.innerWidth - width) / 2
-       val y = (window.innerHeight - width) / 2
-
-       SpriteRenderer.sprite(logo, x, y, width, width)
+       scene.update()
+       scene.render()
 
        SpriteRenderer.onEndFrame()
        window.flip()

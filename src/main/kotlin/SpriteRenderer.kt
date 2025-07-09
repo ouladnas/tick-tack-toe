@@ -1,8 +1,7 @@
+import org.joml.Math
 import org.lwjgl.opengl.GL41.*
-import org.joml.Matrix4f
 import org.lwjgl.BufferUtils
 import org.lwjgl.stb.STBImage.*
-import java.nio.FloatBuffer
 import org.lwjgl.system.MemoryStack
 import java.net.URL
 import java.nio.ByteBuffer
@@ -29,7 +28,8 @@ object SpriteRenderer {
   private var indexValues = IntArray(MAX_INDICES)
   private var indexCount = 0
 
-  private var textures = IntArray(MAX_TEXTURES)
+  private val textures = IntArray(MAX_TEXTURES)
+  private val textureCache = mutableMapOf<String, Texture>()
   private var textureCount = 0
 
   private var width = 800
@@ -38,11 +38,23 @@ object SpriteRenderer {
   fun onBeginFrame() {
     vertexCount = 0
     indexCount = 0
+
     glClear(GL_COLOR_BUFFER_BIT)
+    glViewport(0, 0, width, height)
+
+    glDisable(GL_CULL_FACE)
+    glEnable(GL_BLEND)
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
   }
 
   fun onEndFrame() {
     glUseProgram(shader)
+
+    for (i in 0 until textureCount) {
+      glActiveTexture(GL_TEXTURE0 + i)
+      glBindTexture(GL_TEXTURE_2D, textures[i])
+    }
+
     glBindVertexArray(vao)
 
     val usedVertexCount = vertexCount * FLOAT_PER_VERTEX
@@ -158,12 +170,13 @@ object SpriteRenderer {
 
     linkShaderProgram(shader, vert, frag)
 
-    glDisable(GL_CULL_FACE)
-    glEnable(GL_BLEND)
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+//    TextSpriter.init()
   }
 
   fun texture(path: String): Texture {
+    if (textureCache.containsKey(path))
+      return textureCache[path]!!
+
     if (textureCount == MAX_TEXTURES)
       throw IllegalStateException("Maximum number of textures reached")
 
@@ -185,7 +198,11 @@ object SpriteRenderer {
 
     stbi_image_free(image)
 
-    return Texture(id, width, height)
+    val texture = Texture(id, width, height)
+
+    textureCache[path] = texture
+
+    return texture
   }
 
   fun sprite(texture: Texture, x: Int, y: Int) {
@@ -221,13 +238,16 @@ object SpriteRenderer {
     val uvRight = (sx + sw) / texWidth
     val uvBottom = (sy + sh) / texHeight
 
-    val xRatio = 2f / this.width
-    val yRatio = 2f / this.height
+    val viewWidth = this.width.toFloat()
+    val viewHeight = this.height.toFloat()
 
-    val vertLeft = x.toFloat() * xRatio - 1f
-    val vertRight = (x + width).toFloat() * xRatio - 1f
-    val vertTop = (y - height).toFloat() * yRatio + 1f
-    val vertBottom = y.toFloat() * yRatio + 1f
+    // [0, width] -> [-1, 1]
+    val vertLeft = remap(x.toFloat(), 0f, viewWidth, -1f, 1f)
+    val vertRight = remap((x + width).toFloat(), 0f, viewWidth, -1f, 1f)
+
+    // [0, height] -> [1, -1]
+    val vertTop = remap(y.toFloat(), 0f, viewHeight, 1f, -1f)
+    val vertBottom = remap((y + height).toFloat(), 0f, viewHeight, 1f, -1f)
 
     val start = vertexCount
     var index = start * FLOAT_PER_VERTEX
@@ -280,7 +300,7 @@ object SpriteRenderer {
     val height = it.mallocInt(1)
     val channels = it.mallocInt(1)
 
-    val bytes = loadResourceBytes(path)
+    val bytes = ResourceUtil.loadResourceBytes(path)
     val direct = ByteBuffer.allocateDirect(bytes.size)
     direct.put(bytes)
     direct.flip()
@@ -289,15 +309,6 @@ object SpriteRenderer {
 
     return Triple(image, width.get(0), height.get(0))
   }
-
-  private fun loadResource(path: String): URL {
-    val resolved = Paths.get("/", path).toString()
-    return SpriteRenderer::class.java.getResource(resolved)
-      ?: throw IllegalStateException("Resource not found: $resolved")
-  }
-
-  private fun loadResourceBytes(path: String) = loadResource(path).readBytes()
-  private fun loadResourceText(path: String) = loadResource(path).readText()
 
   private fun linkShaderProgram(shader: Int, vmod: Int, fmod: Int) {
     glAttachShader(shader, vmod)
@@ -322,7 +333,7 @@ object SpriteRenderer {
 
   private fun createShaderModule(type: Int, path: String): Int {
     val shader = glCreateShader(type)
-    glShaderSource(shader, patchShaderSource(loadResourceText(path)))
+    glShaderSource(shader, patchShaderSource(ResourceUtil.loadResourceText(path)))
     glCompileShader(shader)
 
     if (glGetShaderi(shader, GL_COMPILE_STATUS) == GL_FALSE) {
@@ -331,4 +342,17 @@ object SpriteRenderer {
     }
     return shader
   }
+}
+
+fun unlerp(x: Float, a: Float, b: Float): Float {
+  if (a == b) return 0f
+  return (x - a) / (b - a)
+}
+
+fun lerp(a: Float, b: Float, t: Float): Float {
+  return a + (b - a) * t
+}
+
+fun remap(x: Float, a1: Float, b1: Float, a2: Float, b2: Float): Float {
+  return lerp(a2, b2, unlerp(x, a1, b1))
 }

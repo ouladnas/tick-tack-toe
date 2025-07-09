@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78618d72-4a34-4c9f-8f30-bf72e3c189e3" name="Changes" comment="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow">
+    <list default="true" id="78618d72-4a34-4c9f-8f30-bf72e3c189e3" name="Changes" comment="hacked around some limitation in my simple sprite renderer">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ResourceUtil.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/TextSpriter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/scenes/GameScene.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/scenes/Scene.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Board.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Board.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/SpriteRenderer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/SpriteRenderer.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/WindowManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/WindowManager.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/sprite.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/sprite.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/sprite.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/sprite.vert" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +62,8 @@
       <list>
         <option value="shader-template" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Object" />
       </list>
     </option>
   </component>
@@ -101,6 +107,12 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="" />
+      <recent name="scenes" />
+    </key>
+  </component>
   <component name="RunManager" selected="Kotlin.MainKt">
     <configuration name="tick-tack-toe [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -209,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752022177545</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="hacked around some limitation in my simple sprite renderer">
+      <option name="closed" value="true" />
+      <created>1752098399212</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1752098399212</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -226,6 +246,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="bismilah" />
     <MESSAGE value="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow" />
-    <option name="LAST_COMMIT_MESSAGE" value="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow" />
+    <MESSAGE value="hacked around some limitation in my simple sprite renderer" />
+    <option name="LAST_COMMIT_MESSAGE" value="hacked around some limitation in my simple sprite renderer" />
   </component>
 </project>

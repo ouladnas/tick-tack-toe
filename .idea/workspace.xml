@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78618d72-4a34-4c9f-8f30-bf72e3c189e3" name="Changes" comment="bismilah" />
+    <list default="true" id="78618d72-4a34-4c9f-8f30-bf72e3c189e3" name="Changes" comment="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,42 +46,54 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="shader-template" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "blfunex"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;blfunex&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ouladnas/tick-tack-toe",
-    "accountId": "5ff9cabe-9e38-49cd-b836-5ce6e5dda3f2"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ouladnas/tick-tack-toe&quot;,
+    &quot;accountId&quot;: &quot;5ff9cabe-9e38-49cd-b836-5ce6e5dda3f2&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2zbLPWeU8p4aSCbWg4nbAmnblcb" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build tick-tack-toe.executor": "Run",
-    "Gradle.tick-tack-toe [build].executor": "Run",
-    "Gradle.tick-tack-toe [clean].executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build tick-tack-toe.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.tick-tack-toe [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.tick-tack-toe [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Kotlin.MainKt">
     <configuration name="tick-tack-toe [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -127,13 +139,20 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+    <configuration name="MainKt" type="JetRunConfigurationType" activateToolWindowBeforeRun="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainKt" />
       <module name="xo.main" />
+      <shortenClasspath name="NONE" />
+      <option name="VM_PARAMETERS" value="-XstartOnFirstThread" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Gradle.tick-tack-toe [build]" />
+      <item itemvalue="Gradle.tick-tack-toe [clean]" />
+      <item itemvalue="Kotlin.MainKt" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
@@ -167,7 +186,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751995272622</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow">
+      <option name="closed" value="true" />
+      <created>1752022082390</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1752022082390</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -183,6 +210,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="bismilah" />
-    <option name="LAST_COMMIT_MESSAGE" value="bismilah" />
+    <MESSAGE value="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow" />
+    <option name="LAST_COMMIT_MESSAGE" value="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow" />
   </component>
 </project>

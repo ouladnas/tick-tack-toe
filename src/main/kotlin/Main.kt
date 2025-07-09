@@ -1,10 +1,27 @@
 import org.lwjgl.glfw.GLFW.*
-import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.opengl.GL
 
 fun main() {
- while (!SpriteRenderer.done) {
-   SpriteRenderer.render()
- }
+ WindowManager.init().use {
+   WindowManager.window(640, 480, "Hello LWJGL").use { window ->
 
- SpriteRenderer.close()
+     SpriteRenderer.init()
+
+     val logo = SpriteRenderer.texture("cross.png")
+
+//     println("Logo: ${logo.width}x${logo.height} ${logo.id}")
+
+     while (!window.dismissing) {
+       // TODO: I need to figure out how to use buffers in Kotlin/JVM it's not working like direct memory in C/C++
+//       SpriteRenderer.onBeginFrame()
+
+//       SpriteRenderer.sprite(logo, 100, 100, 256)
+
+//       SpriteRenderer.onEndFrame()
+       window.flip()
+     }
+
+     SpriteRenderer.free()
+   }
+ }
 }

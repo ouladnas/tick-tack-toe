@@ -12,12 +12,11 @@ fun main() {
 //     println("Logo: ${logo.width}x${logo.height} ${logo.id}")
 
      while (!window.dismissing) {
-       // TODO: I need to figure out how to use buffers in Kotlin/JVM it's not working like direct memory in C/C++
-//       SpriteRenderer.onBeginFrame()
+       SpriteRenderer.onBeginFrame()
 
-//       SpriteRenderer.sprite(logo, 100, 100, 256)
+       SpriteRenderer.sprite(logo, 100, 100, 256)
 
-//       SpriteRenderer.onEndFrame()
+       SpriteRenderer.onEndFrame()
        window.flip()
      }
 

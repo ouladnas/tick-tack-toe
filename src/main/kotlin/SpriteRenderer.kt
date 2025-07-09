@@ -43,21 +43,24 @@ object SpriteRenderer {
   }
 
   fun onEndFrame() {
-    val vertexBuffer = BufferUtils.createFloatBuffer(vertexCount * FLOAT_PER_VERTEX).put(vertexValues).flip()
-    val indexBuffer = BufferUtils.createIntBuffer(indexCount).put(indexValues).flip()
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo)
-    glBufferSubData(GL_ARRAY_BUFFER, 0, vertexBuffer)
-
-    indexBuffer.position(indexCount)
-    indexBuffer.flip()
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indexBuffer)
-
-    glUseProgram(shader)
-    glBindVertexArray(vao)
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0L)
+      val usedVertexCount = vertexCount * FLOAT_PER_VERTEX
+      val vertexBuffer = BufferUtils.createFloatBuffer(usedVertexCount)
+      vertexBuffer.put(vertexValues, 0, usedVertexCount)
+      vertexBuffer.flip()
+  
+      val indexBuffer = BufferUtils.createIntBuffer(indexCount)
+      indexBuffer.put(indexValues, 0, indexCount)
+      indexBuffer.flip()
+  
+      glBindBuffer(GL_ARRAY_BUFFER, vbo)
+      glBufferSubData(GL_ARRAY_BUFFER, 0, vertexBuffer)
+  
+      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
+      glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indexBuffer)
+  
+      glUseProgram(shader)
+      glBindVertexArray(vao)
+      glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0L)
   }
 
   fun free() {

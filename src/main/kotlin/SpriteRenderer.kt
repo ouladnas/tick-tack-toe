@@ -1,13 +1,10 @@
-import org.joml.Math
 import org.lwjgl.opengl.GL41.*
 import org.lwjgl.BufferUtils
 import org.lwjgl.stb.STBImage.*
 import org.lwjgl.system.MemoryStack
-import java.net.URL
 import java.nio.ByteBuffer
-import java.nio.file.Paths
 
-data class Texture(val id: Int, val width: Int, val height: Int)
+data class Texture(val id: Int, val index: Int, val width: Int, val height: Int)
 
 object SpriteRenderer {
   private const val MAX_SPRITES = 2048
@@ -53,7 +50,20 @@ object SpriteRenderer {
     for (i in 0 until textureCount) {
       glActiveTexture(GL_TEXTURE0 + i)
       glBindTexture(GL_TEXTURE_2D, textures[i])
+
+      val location = glGetUniformLocation(shader, "u_textures[$i]")
+      glUniform1i(location, i)
     }
+
+//    val texturesLocation = glGetUniformLocation(shader, "u_textures")
+//    glUniform1iv(texturesLocation, IntArray(textureCount) { it })
+
+//    val uniformCount = glGetProgrami(shader, GL_ACTIVE_UNIFORMS)
+//    for (i in 0 until uniformCount) {
+//      val name = glGetActiveUniformName(shader, i)
+//      val location = glGetUniformLocation(shader, name)
+//      println("$i: $name: $location")
+//    }
 
     glBindVertexArray(vao)
 
@@ -170,7 +180,7 @@ object SpriteRenderer {
 
     linkShaderProgram(shader, vert, frag)
 
-//    TextSpriter.init()
+    TextSpriter.init()
   }
 
   fun texture(path: String): Texture {
@@ -182,11 +192,11 @@ object SpriteRenderer {
 
     val (image, width, height) = loadTextureImage(path)
     val id = glGenTextures()
+    val index = textureCount++
 
+    textures[index] = id
+    glActiveTexture(GL_TEXTURE0 + index)
     glBindTexture(GL_TEXTURE_2D, id)
-    glActiveTexture(GL_TEXTURE0 + textureCount)
-
-    textures[textureCount++] = id
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
@@ -198,7 +208,7 @@ object SpriteRenderer {
 
     stbi_image_free(image)
 
-    val texture = Texture(id, width, height)
+    val texture = Texture(id, index, width, height)
 
     textureCache[path] = texture
 
@@ -232,7 +242,7 @@ object SpriteRenderer {
     val texWidth = texture.width.toFloat()
     val texHeight = texture.height.toFloat()
 
-    val texId = texture.id.toFloat()
+    val texIndex = texture.index.toFloat()
     val uvLeft = sx / texWidth
     val uvTop = sy / texHeight
     val uvRight = (sx + sw) / texWidth
@@ -268,7 +278,7 @@ object SpriteRenderer {
     vertexValues[index++] = vertTop
     vertexValues[index++] = uvLeft
     vertexValues[index++] = uvTop
-    vertexValues[index++] = texId
+    vertexValues[index++] = texIndex
 
     // B - TOP RIGHT
 
@@ -276,7 +286,7 @@ object SpriteRenderer {
     vertexValues[index++] = vertTop
     vertexValues[index++] = uvRight
     vertexValues[index++] = uvTop
-    vertexValues[index++] = texId
+    vertexValues[index++] = texIndex
 
     // C - BOTTOM LEFT
 
@@ -284,7 +294,7 @@ object SpriteRenderer {
     vertexValues[index++] = vertBottom
     vertexValues[index++] = uvLeft
     vertexValues[index++] = uvBottom
-    vertexValues[index++] = texId
+    vertexValues[index++] = texIndex
 
     // D - BOTTOM RIGHT
 
@@ -292,7 +302,7 @@ object SpriteRenderer {
     vertexValues[index++] = vertBottom
     vertexValues[index++] = uvRight
     vertexValues[index++] = uvBottom
-    vertexValues[index] = texId
+    vertexValues[index] = texIndex
   }
 
   private fun loadTextureImage(path: String): Triple<ByteBuffer, Int, Int> = MemoryStack.stackPush().use {
@@ -327,8 +337,38 @@ object SpriteRenderer {
     glDeleteShader(fmod)
   }
 
-  private fun patchShaderSource(source: String): String {
+  private fun patchMaxTextureConstant(source: String): String {
     return source.replace(Regex("#define MAX_TEXTURES.+"), "#define MAX_TEXTURES $MAX_TEXTURES")
+  }
+
+  private fun patchSampleFunction(source: String): String {
+//    val debugColors = listOf(
+//      "vec4(1.0f, 0.0f, 0.0f, 1.0f)",
+//      "vec4(0.0f, 1.0f, 0.0f, 1.0f)",
+//      "vec4(0.0f, 0.0f, 1.0f, 1.0f)",
+//      "vec4(1.0f, 1.0f, 0.0f, 1.0f)",
+//      "vec4(1.0f, 0.0f, 1.0f, 1.0f)",
+//      "vec4(0.0f, 1.0f, 1.0f, 1.0f)",
+//      "vec4(1.0f, 1.0f, 1.0f, 1.0f)",
+//      "vec4(0.0f, 0.0f, 0.0f, 1.0f)",
+//    )
+    val signature = "vec4 TEXTURE()"
+    return source.replace("$signature;", "$signature {\n${
+//    Array(MAX_TEXTURES) { "    case $it: return ${debugColors[it % debugColors.size]};" }.joinToString(
+      Array(MAX_TEXTURES) { "    case $it: return texture(u_textures[$it], v_texCoords);" }
+        .joinToString(
+          "\n",
+          "  switch (v_texIndex) {\n",
+          "  }"
+        )
+    }\n}")
+  }
+
+  private fun patchShaderSource(source: String): String {
+    var patched = source
+    patched = patchMaxTextureConstant(patched)
+    patched = patchSampleFunction(patched)
+    return patched
   }
 
   private fun createShaderModule(type: Int, path: String): Int {
@@ -344,15 +384,6 @@ object SpriteRenderer {
   }
 }
 
-fun unlerp(x: Float, a: Float, b: Float): Float {
-  if (a == b) return 0f
-  return (x - a) / (b - a)
-}
-
-fun lerp(a: Float, b: Float, t: Float): Float {
-  return a + (b - a) * t
-}
-
-fun remap(x: Float, a1: Float, b1: Float, a2: Float, b2: Float): Float {
-  return lerp(a2, b2, unlerp(x, a1, b1))
-}
+fun unlerp(x: Float, a: Float, b: Float) = if (a == b) 0f else (x - a) / (b - a)
+fun lerp(a: Float, b: Float, t: Float) = a + (b - a) * t
+fun remap(x: Float, a1: Float, b1: Float, a2: Float, b2: Float) = lerp(a2, b2, unlerp(x, a1, b1))

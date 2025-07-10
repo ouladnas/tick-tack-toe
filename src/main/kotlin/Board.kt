@@ -31,6 +31,16 @@ class Board {
     return true
   }
 
+  fun toSquareList(): List<Triple<Int, Int, Tile>> {
+    val result = mutableListOf<Triple<Int, Int, Tile>>()
+    for (y in 0..2) {
+      for (x in 0..2) {
+        result.add(Triple(x, y, tiles[y * 3 + x]))
+      }
+    }
+    return result
+  }
+
   fun play(x: Int, y: Int, tile: Tile): Boolean = play(y * 3 + x, tile)
   fun won(): Boolean = WIN_LINE_CANDIDATES.any { evaluatWetherLineIsWon(it) }
 

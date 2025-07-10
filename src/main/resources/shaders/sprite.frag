@@ -9,7 +9,9 @@ uniform sampler2D u_textures[MAX_TEXTURES];
 
 layout(location = 0) out vec4 f_color;
 
+vec4 TEXTURE();
+
 void main() {
-    f_color = texture(u_textures[v_texIndex], v_texCoords);
+    f_color = TEXTURE();
 //    f_color = vec4(1.0f, 0.0f, 1.0f, 1.0f);
 }

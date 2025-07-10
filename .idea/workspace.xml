@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78618d72-4a34-4c9f-8f30-bf72e3c189e3" name="Changes" comment="hacked around some limitation in my simple sprite renderer">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ResourceUtil.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/TextSpriter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/scenes/GameScene.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/scenes/Scene.kt" afterDir="false" />
+    <list default="true" id="e8c92437-4bfd-44ef-94de-b51fa2ceba69" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Board.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Board.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ResourceUtil.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ResourceUtil.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/SpriteRenderer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/SpriteRenderer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/scenes/GameScene.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/scenes/GameScene.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/sprite.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/sprite.frag" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,12 +43,6 @@
                 <item name="xo" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="xo" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -57,108 +50,42 @@
       </state>
     </system>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="shader-template" />
-        <option value="Kotlin File" />
-        <option value="Kotlin Class" />
-        <option value="Kotlin Object" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;blfunex&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "blfunex"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/ouladnas/tick-tack-toe&quot;,
-    &quot;accountId&quot;: &quot;5ff9cabe-9e38-49cd-b836-5ce6e5dda3f2&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ouladnas/tick-tack-toe",
+    "accountId": "5ff9cabe-9e38-49cd-b836-5ce6e5dda3f2"
   }
-}</component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 4
-}</component>
-  <component name="ProjectId" id="2zbLPWeU8p4aSCbWg4nbAmnblcb" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2zev3p4BvzOhLXyb0LLbTB4bJkC" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build tick-tack-toe.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.tick-tack-toe [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.tick-tack-toe [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build tick-tack-toe.executor": "Run",
+    "Kotlin.MainKt.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="" />
-      <recent name="scenes" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Kotlin.MainKt">
-    <configuration name="tick-tack-toe [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="tick-tack-toe [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="clean" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="MainKt" type="JetRunConfigurationType" activateToolWindowBeforeRun="false" temporary="true" nameIsGenerated="true">
+}]]></component>
+  <component name="RunManager">
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainKt" />
       <module name="xo.main" />
       <shortenClasspath name="NONE" />
@@ -167,86 +94,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Gradle.tick-tack-toe [build]" />
-      <item itemvalue="Gradle.tick-tack-toe [clean]" />
-      <item itemvalue="Kotlin.MainKt" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
-        <item itemvalue="Gradle.tick-tack-toe [build]" />
-        <item itemvalue="Gradle.tick-tack-toe [clean]" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="78618d72-4a34-4c9f-8f30-bf72e3c189e3" name="Changes" comment="" />
-      <created>1751994802246</created>
+      <changelist id="e8c92437-4bfd-44ef-94de-b51fa2ceba69" name="Changes" comment="" />
+      <created>1752104157052</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1751994802246</updated>
+      <updated>1752104157052</updated>
     </task>
-    <task id="LOCAL-00001" summary="bismilah">
-      <option name="closed" value="true" />
-      <created>1751995266719</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1751995266719</updated>
-    </task>
-    <task id="LOCAL-00002" summary="bismilah">
-      <option name="closed" value="true" />
-      <created>1751995272622</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1751995272622</updated>
-    </task>
-    <task id="LOCAL-00003" summary="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow">
-      <option name="closed" value="true" />
-      <created>1752022082390</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1752022082390</updated>
-    </task>
-    <task id="LOCAL-00004" summary="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow">
-      <option name="closed" value="true" />
-      <created>1752022177545</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1752022177545</updated>
-    </task>
-    <task id="LOCAL-00005" summary="hacked around some limitation in my simple sprite renderer">
-      <option name="closed" value="true" />
-      <created>1752098399212</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1752098399212</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="bismilah" />
-    <MESSAGE value="add some code for simple sprite renderer&#10;&#10;having some issues with buffers causing the app to crash/error out&#10;will look into it tomorrow" />
-    <MESSAGE value="hacked around some limitation in my simple sprite renderer" />
-    <option name="LAST_COMMIT_MESSAGE" value="hacked around some limitation in my simple sprite renderer" />
   </component>
 </project>

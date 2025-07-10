@@ -6,10 +6,10 @@ fun main() {
 
      SpriteRenderer.init()
 
-//     val board = Board()
-//     board.set(0, 0, Tile.CROSS)
-//     board.set(1, 2, Tile.CIRCLE)
-     val scene = GameScene(window)
+     val board = Board()
+     board.set(0, 0, Tile.CROSS)
+     board.set(1, 2, Tile.CIRCLE)
+     val scene = GameScene(window, board)
 
      scene.init()
 

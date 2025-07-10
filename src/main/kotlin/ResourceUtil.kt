@@ -14,7 +14,7 @@ object ResourceUtil {
   fun loadResourceBytes(path: String) = loadResource(path).readBytes()
   fun loadResourceText(path: String) = loadResource(path).readText()
 
-//  inline fun <reified T> loadResourceJson(path: String): T = Json.decodeFromString<T>(loadResourceText(path))
+  inline fun <reified T> loadResourceJson(path: String): T = Json.decodeFromString<T>(loadResourceText(path))
 
   fun loadResourceJson(path: String): JsonElement = Json.decodeFromString(loadResourceText(path))
 }

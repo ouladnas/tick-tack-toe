@@ -11,7 +11,7 @@ fun main() {
 
      var scene: Scene = GameScene(window, game)
 
-     scene.init()
+     scene.resume()
 
      SpriteRenderer.onFrameResize(window.innerWidth, window.innerHeight)
      window.onBufferResize { width, height ->
@@ -24,8 +24,9 @@ fun main() {
        val next = scene.update()
 
        if (next != scene) {
+         scene.stop()
          scene = next
-         scene.init()
+         scene.resume()
        }
 
        scene.render()

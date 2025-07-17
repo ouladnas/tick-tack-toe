@@ -3,14 +3,14 @@ class Board {
 
   companion object {
     private val WIN_LINE_CANDIDATES = listOf(
-      Triple(1, 2, 3),
-      Triple(4, 5, 6),
-      Triple(7, 8, 9),
+      Triple(0, 1, 2),
+      Triple(3, 4, 5),
+      Triple(6, 7, 8),
+      Triple(0, 3, 6),
       Triple(1, 4, 7),
       Triple(2, 5, 8),
-      Triple(3, 6, 9),
-      Triple(1, 5, 9),
-      Triple(3, 5, 7),
+      Triple(0, 4, 8),
+      Triple(2, 4, 6)
     )
   }
 
@@ -25,7 +25,7 @@ class Board {
   }
 
   fun play(index: Int, tile: Tile): Boolean {
-    if(!isTileEmpty(index))
+    if (!isTileEmpty(index))
       return false
     tiles[index] = tile
     return true

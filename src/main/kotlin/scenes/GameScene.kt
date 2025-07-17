@@ -1,44 +1,21 @@
 package scenes
 
 import Game
+import GameState
+import MouseButton
 import SpriteRenderer
+import Tile
 import Window
 import kotlin.math.min
 
-class DrawScene(val boardScene: GameScene) : Scene() {
-  override fun init() {}
-
-  override fun update(): Scene {
-    return this
-  }
-
-  override fun render() {
-    boardScene.render()
-    TODO("Render draw screen")
-  }
-}
-
-class WonScene(val boardScene: GameScene) : Scene() {
-  override fun init() {}
-
-  override fun update(): Scene {
-    return this
-  }
-
-  override fun render() {
-    boardScene.render()
-    TODO("Render victory screen")
-  }
-}
-
-class GameScene(val window: Window, val game: Game) : Scene() {
+class GameScene(val window: Window, public val game: Game) : Scene() {
   private val boardTexture = SpriteRenderer.texture("board.png")
   private val crossTexture = SpriteRenderer.texture("cross.png")
   private val circleTexture = SpriteRenderer.texture("circle.png")
   private val textTexture = SpriteRenderer.texture("text.png")
 
   fun renderBoard() {
-    val scoreTextHeight = 50
+    val scoreTextHeight = 0
     val scoreBoxHeight = scoreTextHeight * 2
     val boardSize = min(window.innerWidth, window.innerHeight) - scoreBoxHeight
     val boardLeft = (window.innerWidth - boardSize) / 2
@@ -70,19 +47,32 @@ class GameScene(val window: Window, val game: Game) : Scene() {
 
   override fun update(): Scene {
     when (game.getState()) {
-      GameState.DRAW -> return DrawScene(this)
-      GameState.WON -> return WonScene(this)
+      GameState.DRAW -> return EndGameScene(this, "draw")
+      GameState.WON -> return EndGameScene(this, "victory")
       else -> return this
     }
   }
 
-  override fun init() {
+  private var initialized = false
+  private var stopped = false
+
+  override fun stop() {
+    stopped = true
+  }
+
+  override fun resume() {
+    stopped = false
+
     game.start()
 
-    window.onMouseDown { x, y, button ->
-      if (button != MouseButton.LEFT) return@onMouseDown
+    if (initialized) return
+    initialized = true
 
-      val scoreTextHeight = 50
+    window.onMouseDown { mx, my, button ->
+      if (button != MouseButton.LEFT) return@onMouseDown
+      if (stopped) return@onMouseDown
+
+      val scoreTextHeight = 0
       val scoreBoxHeight = scoreTextHeight * 2
       val boardSize = min(window.innerWidth, window.innerHeight) - scoreBoxHeight
       val boardLeft = (window.innerWidth - boardSize) / 2
@@ -93,11 +83,13 @@ class GameScene(val window: Window, val game: Game) : Scene() {
       val board = game.board
 
       board.toSquareList().forEach { (x, y, tile) ->
+        if (tile != Tile.EMPTY) return@forEach
+
         val left = boardLeft + x * (boardSquareSize + boardLineSize)
         val top = boardTop + y * (boardSquareSize + boardLineSize)
 
-        if (isInRect(x, y, left, top, boardSquareSize, boardSquareSize)) {
-          game.play(x, y, tile)
+        if (isInRect(mx, my, left, top, boardSquareSize, boardSquareSize)) {
+          game.play(x, y)
           return@forEach
 
         }
@@ -105,7 +97,8 @@ class GameScene(val window: Window, val game: Game) : Scene() {
     }
   }
 
-  private fun isInRect(x: Int, y: Int, left: Int, top: Int, width: Int, height: Int): Boolean {
-    return x >= left && x < left + width && y >= top && y < top + height
-  }
+}
+
+fun isInRect(x: Int, y: Int, left: Int, top: Int, width: Int, height: Int): Boolean {
+  return x >= left && x < left + width && y >= top && y < top + height
 }

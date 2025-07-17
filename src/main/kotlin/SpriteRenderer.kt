@@ -11,7 +11,7 @@ object SpriteRenderer {
   private const val MAX_VERTICES = MAX_SPRITES * 4
   private const val MAX_INDICES = MAX_SPRITES * 6
   private const val FLOAT_PER_VERTEX = 5
-  private const val MAX_TEXTURES = 8
+  private const val MAX_TEXTURES = 12
 
   private var vao = 0
   private var vbo = 0

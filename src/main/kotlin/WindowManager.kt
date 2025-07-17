@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL41C.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import kotlin.math.round
 
 data class Window(val handle: Long): AutoCloseable {
   override fun close() {
@@ -68,6 +69,48 @@ data class Window(val handle: Long): AutoCloseable {
       callback(this, width, height)
     }
   }
+
+  private var mx = 0
+  private var my = 0
+
+  fun onMouseDown(callback: Window.(Int, Int, MouseButton) -> Unit) {
+    glfwSetMouseButtonCallback(handle) { _, btn, action, _ ->
+      val button = getMouseButton(btn) ?: return@glfwSetMouseButtonCallback
+      val isPressed = action == GLFW_PRESS
+
+      if (isPressed) callback(this, mx, my, button)
+    }
+  }
+
+  fun onMouseUp(callback: Window.(Int, Int, MouseButton) -> Unit) {
+    glfwSetMouseButtonCallback(handle) { _, btn, action, _ ->
+      val button = getMouseButton(btn) ?: return@glfwSetMouseButtonCallback
+      val isPressed = action == GLFW_RELEASE
+
+      if (isPressed) callback(this, mx, my, button)
+    }
+  }
+
+  fun onMouseMove(callback: Window.(Int, Int) -> Unit) {
+    glfwSetCursorPosCallback(handle) { _, x, y ->
+      mx = round(x).toInt()
+      my = round(y).toInt()
+      callback(this, mx, my)
+    }
+  }
+
+  companion object {
+    fun getMouseButton(button: Int) = when (button) {
+      GLFW_MOUSE_BUTTON_LEFT -> MouseButton.LEFT
+      GLFW_MOUSE_BUTTON_RIGHT -> MouseButton.RIGHT
+      GLFW_MOUSE_BUTTON_MIDDLE -> MouseButton.MIDDLE
+      else -> null
+    }
+  }
+}
+
+enum class MouseButton {
+  LEFT, RIGHT, MIDDLE
 }
 
 object WindowManager : AutoCloseable {

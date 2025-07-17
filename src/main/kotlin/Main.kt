@@ -1,4 +1,5 @@
 import scenes.GameScene
+import scenes.Scene
 
 fun main() {
  WindowManager.init().use {
@@ -6,22 +7,27 @@ fun main() {
 
      SpriteRenderer.init()
 
-     val board = Board()
-     board.set(0, 0, Tile.CROSS)
-     board.set(1, 2, Tile.CIRCLE)
-     val scene = GameScene(window, board)
+     val game = Game()
+
+     var scene: Scene = GameScene(window, game)
 
      scene.init()
 
      SpriteRenderer.onFrameResize(window.innerWidth, window.innerHeight)
-     window.onBufferResize() { width, height ->
+     window.onBufferResize { width, height ->
        SpriteRenderer.onFrameResize(width, height)
      }
 
      while (!window.dismissing) {
        SpriteRenderer.onBeginFrame()
 
-       scene.update()
+       val next = scene.update()
+
+       if (next != scene) {
+         scene = next
+         scene.init()
+       }
+
        scene.render()
 
        SpriteRenderer.onEndFrame()
